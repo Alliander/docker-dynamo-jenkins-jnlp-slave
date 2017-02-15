@@ -32,5 +32,5 @@ RUN \
 RUN \
     yum -y remove --skip-broken gcc make gcc-c++
 
-Define default command
+#Define default command
 CMD ["bash"]
