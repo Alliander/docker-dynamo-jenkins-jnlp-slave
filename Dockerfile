@@ -19,7 +19,7 @@ RUN mkdir /home/jenkins/.jenkins
 VOLUME /home/jenkins/.jenkins
 WORKDIR /home/jenkins
 
-ENTRYPOINT ["jenkins-slave"]
+#ENTRYPOINT ["jenkins-slave"]
 
 ### adding KubeCTL
 
