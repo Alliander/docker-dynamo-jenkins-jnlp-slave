@@ -1,37 +1,37 @@
-FROM alliander/jenkins-jnlp-slave:1.0
+FROM usefdynamo/libsodium:0.2
+MAINTAINER David Righart <david.righart@alliander.com>
 
-MAINTAINER David Righart
+ENV HOME /home/jenkins
+RUN groupadd -g 10000 jenkins
+RUN useradd -c "Jenkins user" -d $HOME -u 10000 -g 10000 -m jenkins
+LABEL Description="This is a base image, which provides the Jenkins agent executable (slave.jar)" Vendor="Jenkins project" Version="3.5"
 
-ENV LIBSODIUM_VERSION 1.0.11
+ARG VERSION=3.5
+
+RUN curl --create-dirs -sSLo /usr/share/jenkins/slave.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${VERSION}/remoting-${VERSION}.jar \
+  && chmod 755 /usr/share/jenkins \
+  && chmod 644 /usr/share/jenkins/slave.jar
+
+COPY jenkins-slave /usr/local/bin/jenkins-slave
+
+USER jenkins
+RUN mkdir /home/jenkins/.jenkins
+VOLUME /home/jenkins/.jenkins
+WORKDIR /home/jenkins
+
+ENTRYPOINT ["jenkins-slave"]
+
+### adding KubeCTL
+
+ARG KUBECTL_VERSION=v1.5.2
 
 USER root
 
-# Define workdir
-WORKDIR /root
+RUN apt-get update && apt-get install -y make && apt-get install -y build-essential g++
 
-# Install some tools: gcc build tools, unzip, etc
-RUN \
-    apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y install curl build-essential unzip
-
-# Download and install libsodium
-# https://download.libsodium.org/doc/
-
-# Download & extract & make libsodium
-# Move libsodium build
-RUN \
-    mkdir -p /tmpbuild/libsodium && \
-    cd /tmpbuild/libsodium && \
-    curl -L https://download.libsodium.org/libsodium/releases/libsodium-$LIBSODIUM_VERSION.tar.gz -o libsodium-$LIBSODIUM_VERSION.tar.gz && \
-    tar xfvz libsodium-$LIBSODIUM_VERSION.tar.gz && \
-    cd /tmpbuild/libsodium/libsodium-$LIBSODIUM_VERSION/ && \
-    ./configure && \
-    make && make check && \
-    make install && \
-    mv src/libsodium /usr/local/ && \
-    rm -Rf /tmpbuild/
-
-# Define default command
-CMD ["bash"]
-
+RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.tar.gz \
+	&& tar xzf kubernetes-client-linux-amd64.tar.gz \
+	&& rm kubernetes-client-linux-amd64.tar.gz \
+	&& chmod +x ./kubernetes/client/bin/kubectl \
+	&& mv ./kubernetes/client/bin/kubectl /usr/local/bin/kubectl \
+	&& rm -Rf ./kubernetes
