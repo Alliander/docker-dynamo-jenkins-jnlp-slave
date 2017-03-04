@@ -28,7 +28,8 @@ ARG KUBECTL_VERSION=v1.5.2
 
 USER root
 
-RUN yum -y install make gcc gcc-c++ curl
+#RUN yum -y install make gcc gcc-c++ curl
+RUN yum -y install curl
 
 RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.tar.gz \
 	&& tar xzf kubernetes-client-linux-amd64.tar.gz \
@@ -36,3 +37,7 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 	&& chmod +x ./kubernetes/client/bin/kubectl \
 	&& mv ./kubernetes/client/bin/kubectl /usr/local/bin/kubectl \
 	&& rm -Rf ./kubernetes
+
+RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh \
+    && chmod 700 get_helm.sh
+	&& ./get_helm.sh
