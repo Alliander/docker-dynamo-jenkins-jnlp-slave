@@ -39,5 +39,5 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 	&& rm -Rf ./kubernetes
 
 RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh \
-    && chmod 700 get_helm.sh
+    && chmod 700 get_helm.sh \
 	&& ./get_helm.sh
