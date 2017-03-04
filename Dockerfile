@@ -28,8 +28,8 @@ ARG KUBECTL_VERSION=v1.5.2
 
 USER root
 
-#RUN yum -y install make gcc gcc-c++ curl
-RUN yum -y install curl
+#RUN yum -y install make gcc gcc-c++ curl git
+RUN yum -y install curl git
 
 RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.tar.gz \
 	&& tar xzf kubernetes-client-linux-amd64.tar.gz \
