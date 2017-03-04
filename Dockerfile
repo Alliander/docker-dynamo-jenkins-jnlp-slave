@@ -38,6 +38,6 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 	&& mv ./kubernetes/client/bin/kubectl /usr/local/bin/kubectl \
 	&& rm -Rf ./kubernetes
 
-RUN curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh \
-    && chmod 700 get_helm.sh \
-	&& ./get_helm.sh
+RUN curl -LO https://kubernetes-helm.storage.googleapis.com/helm-v2.2.1-linux-amd64.tar.gz \
+	&& tar xzf helm-v2.2.1-linux-amd64.tar.gz \
+	&& rm helm-v2.2.1-linux-amd64.tar.gz
