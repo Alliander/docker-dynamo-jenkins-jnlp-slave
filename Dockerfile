@@ -40,4 +40,7 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 
 RUN curl -LO https://kubernetes-helm.storage.googleapis.com/helm-v2.2.1-linux-amd64.tar.gz \
 	&& tar xzf helm-v2.2.1-linux-amd64.tar.gz \
-	&& rm helm-v2.2.1-linux-amd64.tar.gz
+	&& rm helm-v2.2.1-linux-amd64.tar.gz \
+	&& chmod +x ./linux-amd64/helm \
+	&& mv ./linux-amd64/helm /usr/local/bin/helm \
+	&& rm -Rf ./helm
