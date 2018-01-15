@@ -90,3 +90,6 @@ RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 COPY pom.xml /home/jenkins
 RUN cd /home/jenkins && mvn clean install && rm pom.xml
 
+# Switch back to user root, so Docker can be accessed
+USER root
+
