@@ -1,6 +1,10 @@
 FROM usefdynamo/libsodium:0.2
 MAINTAINER David Righart <david.righart@alliander.com>
 
+USER root
+
+RUN yum -y install curl git
+
 ENV HOME /home/jenkins
 RUN groupadd -g 10000 jenkins
 RUN useradd -c "Jenkins user" -d $HOME -u 10000 -g 10000 -m jenkins
@@ -29,19 +33,56 @@ ARG HELM_VERSION=v2.5.0
 
 USER root
 
-#RUN yum -y install make gcc gcc-c++ curl git
 RUN yum -y install curl git
 
 RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.tar.gz \
-	&& tar xzf kubernetes-client-linux-amd64.tar.gz \
-	&& rm kubernetes-client-linux-amd64.tar.gz \
-	&& chmod +x ./kubernetes/client/bin/kubectl \
-	&& mv ./kubernetes/client/bin/kubectl /usr/local/bin/kubectl \
-	&& rm -Rf ./kubernetes
+        && tar xzf kubernetes-client-linux-amd64.tar.gz \
+        && rm kubernetes-client-linux-amd64.tar.gz \
+        && chmod +x ./kubernetes/client/bin/kubectl \
+        && mv ./kubernetes/client/bin/kubectl /usr/local/bin/kubectl \
+        && rm -Rf ./kubernetes
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
-	&& tar xzf helm-${HELM_VERSION}-linux-amd64.tar.gz \
-	&& rm helm-${HELM_VERSION}-linux-amd64.tar.gz \
-	&& chmod +x ./linux-amd64/helm \
-	&& mv ./linux-amd64/helm /usr/local/bin/helm \
-	&& rm -Rf ./linux-amd64
+        && tar xzf helm-${HELM_VERSION}-linux-amd64.tar.gz \
+        && rm helm-${HELM_VERSION}-linux-amd64.tar.gz \
+        && chmod +x ./linux-amd64/helm \
+        && mv ./linux-amd64/helm /usr/local/bin/helm \
+        && rm -Rf ./linux-amd64
+
+# install Maven
+RUN curl --fail --location --retry 3 \
+        https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
+        -o /tmp/maven.tar.gz \
+    && tar -zvxf /tmp/maven.tar.gz -C /opt/ \
+    && \rm -f /tmp/maven.tar.gz
+
+# install node
+RUN curl --fail --location --retry 3 \
+        https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.gz \
+        -o /tmp/node.tar.gz \
+    && tar -zvxf /tmp/node.tar.gz -C /opt/ \
+    && \rm -f /tmp/node.tar.gz
+
+# install gradle
+RUN curl --fail --location --retry 3 \
+        http://services.gradle.org/distributions/gradle-3.3-bin.zip \
+        -o /tmp/gradle.zip \
+    && unzip /tmp/gradle.zip -d /opt/ \
+    && \rm -f /tmp/gradle.zip
+
+# prepare some environment vars
+ENV M2_HOME=/opt/apache-maven-3.3.9
+ENV M2=$M2_HOME/bin 
+ENV GRADLE_HOME=/opt/gradle-3.3
+ENV GRADLE=$GRADLE_HOME/bin
+ENV PATH=$M2:$GRADLE:$PATH
+ENV GRADLE_USER_HOME=/root/.m2
+
+# Retrieve default libraries from gradle build file, like Spring boot etc..
+COPY build.gradle /root
+RUN cd /root && gradle downloadDependencies && rm build.gradle
+
+# Retrieve default libraries from maven pom file.
+COPY pom.xml /root
+RUN cd /root && mvn clean install && rm pom.xml
+
