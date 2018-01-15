@@ -40,35 +40,37 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
         && rm kubernetes-client-linux-amd64.tar.gz \
         && chmod +x ./kubernetes/client/bin/kubectl \
         && mv ./kubernetes/client/bin/kubectl /usr/local/bin/kubectl \
-        && rm -Rf ./kubernetes
+        && rm -Rf ./kubernetes \
 
-RUN curl -LO https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
+    && curl -LO https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz \
         && tar xzf helm-${HELM_VERSION}-linux-amd64.tar.gz \
         && rm helm-${HELM_VERSION}-linux-amd64.tar.gz \
         && chmod +x ./linux-amd64/helm \
         && mv ./linux-amd64/helm /usr/local/bin/helm \
-        && rm -Rf ./linux-amd64
+        && rm -Rf ./linux-amd64 \
 
 # install Maven
-RUN curl --fail --location --retry 3 \
+    && curl --fail --location --retry 3 \
         https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz \
         -o /tmp/maven.tar.gz \
     && tar -zvxf /tmp/maven.tar.gz -C /opt/ \
-    && \rm -f /tmp/maven.tar.gz
+    && \rm -f /tmp/maven.tar.gz \
 
 # install node
-RUN curl --fail --location --retry 3 \
+    && curl --fail --location --retry 3 \
         https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.gz \
         -o /tmp/node.tar.gz \
     && tar -zvxf /tmp/node.tar.gz -C /opt/ \
-    && \rm -f /tmp/node.tar.gz
+    && \rm -f /tmp/node.tar.gz \
 
 # install gradle
-RUN curl --fail --location --retry 3 \
+    && curl --fail --location --retry 3 \
         http://services.gradle.org/distributions/gradle-3.3-bin.zip \
         -o /tmp/gradle.zip \
     && unzip /tmp/gradle.zip -d /opt/ \
     && \rm -f /tmp/gradle.zip
+
+RUN chown -R jenkins /opt/* && chgrp -R jenkins /opt/*
 
 # prepare some environment vars
 ENV M2_HOME=/opt/apache-maven-3.3.9
