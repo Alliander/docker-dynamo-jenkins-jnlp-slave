@@ -72,19 +72,21 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 
 RUN chown -R jenkins /opt/* && chgrp -R jenkins /opt/*
 
+USER jenkins
+
 # prepare some environment vars
 ENV M2_HOME=/opt/apache-maven-3.3.9
 ENV M2=$M2_HOME/bin 
 ENV GRADLE_HOME=/opt/gradle-3.3
 ENV GRADLE=$GRADLE_HOME/bin
 ENV PATH=$M2:$GRADLE:$PATH
-ENV GRADLE_USER_HOME=/root/.m2
+ENV GRADLE_USER_HOME=/home/jenkins/.m2
 
 # Retrieve default libraries from gradle build file, like Spring boot etc..
-COPY build.gradle /root
-RUN cd /root && gradle downloadDependencies && rm build.gradle
+COPY build.gradle /home/jenkins
+RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 
 # Retrieve default libraries from maven pom file.
-COPY pom.xml /root
-RUN cd /root && mvn clean install && rm pom.xml
+COPY pom.xml /home/jenkins
+RUN cd /home/jenkins && mvn clean install && rm pom.xml
 
