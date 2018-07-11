@@ -93,8 +93,8 @@ dependencies {
 }
 
 task downloadDependencies(type: Exec) {
-    configurations.testRuntime.files
     configurations.gatling.files
+    configurations.testRuntime.files
     configurations.checkstyle.files
     configurations.findbugs.files
     configurations.pmd.files
