@@ -94,9 +94,9 @@ dependencies {
 
 task downloadDependencies(type: Exec) {
     configurations.testRuntime.files
+    configurations.gatling.files
     configurations.checkstyle.files
     configurations.findbugs.files
     configurations.pmd.files
-    configurations.gatlingRuntime.files
     commandLine 'echo', 'Downloaded all dependencies'
 }
