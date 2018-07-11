@@ -94,9 +94,6 @@ dependencies {
 
 task downloadDependencies(type: Exec) {
     configurations.testRuntime.files
-    configurations.checkstyleRuntime.files
-    configurations.findbugsRuntime.files
-    configurations.pmdRuntime.files
-    configuraitons.compileGatlingScala.files
+    configurations.each { println it.name }
     commandLine 'echo', 'Downloaded all dependencies'
 }
