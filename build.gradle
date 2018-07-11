@@ -66,9 +66,33 @@ dependencies {
     jaxb('org.jvnet.jaxb2_commons:jaxb2-basics-ant:1.11.1')
     jaxb('org.jvnet.jaxb2_commons:jaxb2-basics-annotate:1.0.4')
     jaxb('org.slf4j:slf4j-log4j12:1.7.25')
+
+    serenityTestCompile('org.projectlombok:lombok:1.16.20')
+    serenityTestCompile('org.abstractj.kalium:kalium:0.7.0')
+    serenityTestCompile('net.serenity-bdd:serenity-core:1.9.12')
+    serenityTestCompile('net.serenity-bdd:serenity-junit:1.9.12')
+    serenityTestCompile('net.serenity-bdd:serenity-cucumber:1.9.5')
+    serenityTestCompile('net.serenity-bdd:serenity-rest-assured:1.9.12')
+    serenityTestCompile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5')
+    serenityTestCompile('com.github.tomakehurst:wiremock:2.17.0')
+    serenityTestCompile('junit:junit:4.12')
+    serenityTestCompile('com.googlecode.junit-toolbox:junit-toolbox:2.4')
+
+    gatlingCompile 'org.abstractj.kalium:kalium:0.7.0'
+    gatlingCompile 'org.scala-lang:scala-library:2.12.5'
+    gatlingCompile 'io.gatling:gatling-app:2.3.1'
+    gatlingCompile 'io.gatling.highcharts:gatling-charts-highcharts:2.3.1'
+
+    gatling 'com.github.tomakehurst:wiremock:2.18.0'
+    gatling 'commons-logging:commons-logging:1.2'
+    gatling 'org.abstractj.kalium:kalium:0.7.0'
+    gatling 'org.scala-lang:scala-library:2.12.5'
+    gatling 'io.gatling:gatling-app:2.3.1'
+    gatling 'io.gatling.highcharts:gatling-charts-highcharts:2.3.1'
+    gatling 'io.netty:netty-all:4.0.56.Final'
 }
 
 task downloadDependencies(type: Exec) {
-    configurations.testRuntime.files
+    configurations.all.files
     commandLine 'echo', 'Downloaded all dependencies'
 }
