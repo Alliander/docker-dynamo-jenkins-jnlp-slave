@@ -37,6 +37,13 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    serenityTestCompile.extendsFrom testCompile
+    serenityTestRuntime.extendsFrom testRuntime
+    gatlingCompile.extendsFrom testCompile
+    gatling.extendsFrom compileRuntime
+}
+
 dependencies {
     compile('org.abstractj.kalium:kalium:0.7.0')
     compile('org.springframework.boot:spring-boot-starter-web')
