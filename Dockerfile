@@ -65,7 +65,7 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 
 # install gradle
     && curl --fail --location --retry 3 \
-        http://services.gradle.org/distributions/gradle-3.3-bin.zip \
+        http://services.gradle.org/distributions/gradle-4.8.1-bin.zip \
         -o /tmp/gradle.zip \
     && unzip /tmp/gradle.zip -d /opt/ \
     && \rm -f /tmp/gradle.zip
@@ -77,7 +77,7 @@ USER jenkins
 # prepare some environment vars
 ENV M2_HOME=/opt/apache-maven-3.3.9
 ENV M2=$M2_HOME/bin 
-ENV GRADLE_HOME=/opt/gradle-3.3
+ENV GRADLE_HOME=/opt/gradle-4.8.1
 ENV GRADLE=$GRADLE_HOME/bin
 ENV PATH=$M2:$GRADLE:$PATH
 ENV GRADLE_USER_HOME=/home/jenkins/.m2
