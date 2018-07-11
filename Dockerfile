@@ -86,10 +86,6 @@ ENV GRADLE_USER_HOME=/home/jenkins/.m2
 COPY build.gradle /home/jenkins
 RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 
-# Retrieve default libraries from maven pom file.
-COPY pom.xml /home/jenkins
-RUN cd /home/jenkins && mvn clean install && rm pom.xml
-
 # Switch back to user root, so Docker can be accessed
 USER root
 

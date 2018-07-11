@@ -1,35 +1,39 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.9.RELEASE'
+        springBootVersion = '2.0.1.RELEASE'
     }
     repositories {
         mavenCentral()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath "net.ltgt.gradle:gradle-apt-plugin:0.12"
+        classpath('gradle.plugin.org.openrepose:gradle-jaxb-plugin:2.5.0')
+        classpath('net.serenity-bdd:serenity-gradle-plugin:1.9.12') {
+            exclude group: 'com.google.inject', module:'guice'
+        }
     }
 }
 
-
 plugins {
-    id 'net.ltgt.apt' version '0.12'
-    id 'java'
+    id 'com.github.lkishalmi.gatling' version '0.7.3'
 }
 
-ext {
-    mapstructVersion = "1.2.0.Final"
-//    lombokVersion = "1.16.18"
+apply {
+    from("performance/gatling.gradle")
+    from("functional/serenity.gradle")
 }
-
-apply plugin: 'idea'
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
-//apply plugin: 'checkstyle'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.openrepose.gradle.plugins.jaxb'
+apply plugin: 'checkstyle'
 apply plugin: 'pmd'
-//apply plugin: 'findbugs'
-apply plugin: 'maven'
+apply plugin: 'findbugs'
+apply plugin: 'net.serenity-bdd.aggregator'
+apply plugin: 'scala'
 
 sourceCompatibility = 1.8
 
@@ -37,34 +41,35 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.springframework.cloud:spring-cloud-starter-sleuth:1.3.0.RELEASE'
-    compile 'org.modelmapper:modelmapper:1.1.1'
-
-    // Databases
-    compile "com.h2database:h2"
-    compile 'org.postgresql:postgresql:42.1.4'
-
-    // Swagger
-    compile 'io.springfox:springfox-swagger2:2.7.0'
-    compile 'io.springfox:springfox-swagger-ui:2.7.0'
-
-    // Date formatting
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.3"
-
-    // Optimisation of order advise
-    compile 'org.choco-solver:choco-solver:4.0.6'
-
-    compile 'org.apache.commons:commons-lang3:3.7'
-    compile "org.projectlombok:lombok"
-    apt "org.projectlombok:lombok"
-
-    testCompile 'io.rest-assured:rest-assured:3.0.6'
+    compile('org.abstractj.kalium:kalium:0.7.0')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile('org.springframework.boot:spring-boot-devtools')
+    compile("org.springframework.boot:spring-boot-starter-hateoas")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile('io.micrometer:micrometer-registry-prometheus:1.0.5')
+    compile('org.fluentd:fluent-logger:0.3.3')
+    compile('com.sndyuk:logback-more-appenders:1.4.3')
+    compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml')
+    compile('com.google.guava:guava:24.1-jre')
+    compile('org.postgresql:postgresql:42.2.2')
+    compile('org.flywaydb:flyway-core')
+    compile('com.google.code.findbugs:annotations:3.0.1')
+    compile('io.netty:netty-all:4.1.23.Final')
+    compileOnly('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-
+    testCompile('com.github.tomakehurst:wiremock:2.17.0')
+    testCompile('com.h2database:h2')
+    testCompile('org.assertj:assertj-core:3.10.0')
+    jaxb('org.glassfish.jaxb:jaxb-xjc:2.2.11')
+    jaxb('org.glassfish.jaxb:jaxb-runtime:2.2.11')
+    jaxb('org.jvnet.jaxb2_commons:jaxb2-basics:1.11.1')
+    jaxb('org.jvnet.jaxb2_commons:jaxb2-basics-ant:1.11.1')
+    jaxb('org.jvnet.jaxb2_commons:jaxb2-basics-annotate:1.0.4')
+    jaxb('org.slf4j:slf4j-log4j12:1.7.25')
 }
 
 task downloadDependencies(type: Exec) {
