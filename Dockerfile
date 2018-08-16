@@ -90,7 +90,7 @@ RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 COPY package.json /home/jenkins
 RUN cd /home/jenkins \
     && ls -la /opt/node-v6.11.2-linux-x64/bin \
-    && npm install npm@latest -g \
+    && /opt/node-v6.11.2-linux-x64/bin/npm install npm@latest -g \
     && /opt/node-v6.11.2-linux-x64/bin/npm install \
     && rm package.json
 
