@@ -91,7 +91,7 @@ RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 # Retrieve default libraries from npm build file
 COPY package.json /home/jenkins
 RUN cd /home/jenkins \
-    && ls -la /opt/node-v6.11.2-linux-x64/bin \
+    # && ls -la /opt/node-v6.11.2-linux-x64/bin \
     && npm install npm@latest -g \
     && npm install \
     && rm package.json
