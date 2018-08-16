@@ -88,7 +88,7 @@ RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 
 # Retrieve default libraries from npm build file
 COPY package.json /home/jenkins
-RUN cd /home/jenkins && ls -la /opt && /opt/npm install && rm package.json
+RUN cd /home/jenkins && ls -la /opt/node-v6.11.2-linux-x64 && /opt/node-v6.11.2-linux-x64/npm install && rm package.json
 
 # Switch back to user root, so Docker can be accessed
 USER root
