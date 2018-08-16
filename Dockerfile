@@ -57,7 +57,8 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
     && \rm -f /tmp/maven.tar.gz \
 
 # install node
-    && curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash - \
+    && curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - \
+    && yum -y install nodejs \
     # && curl --fail --location --retry 3 \
     #     https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.gz \
     #     -o /tmp/node.tar.gz \
