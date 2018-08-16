@@ -86,6 +86,10 @@ ENV GRADLE_USER_HOME=/home/jenkins/.m2
 COPY build.gradle /home/jenkins
 RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 
+# Retrieve default libraries from npm build file
+COPY package.json /home/jenkins
+RUN cd /home/jenkins && npm install && rm package.json
+
 # Switch back to user root, so Docker can be accessed
 USER root
 
