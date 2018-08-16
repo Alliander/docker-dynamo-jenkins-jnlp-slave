@@ -57,11 +57,12 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
     && \rm -f /tmp/maven.tar.gz \
 
 # install node
-    && curl --fail --location --retry 3 \
-        https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.gz \
-        -o /tmp/node.tar.gz \
-    && tar -zvxf /tmp/node.tar.gz -C /opt/ \
-    && \rm -f /tmp/node.tar.gz \
+    && curl --silent --location https://rpm.nodesource.com/setup_8.x | sudo bash - \
+    # && curl --fail --location --retry 3 \
+    #     https://nodejs.org/dist/v6.11.2/node-v6.11.2-linux-x64.tar.gz \
+    #     -o /tmp/node.tar.gz \
+    # && tar -zvxf /tmp/node.tar.gz -C /opt/ \
+    # && \rm -f /tmp/node.tar.gz \
 
 # install gradle
     && curl --fail --location --retry 3 \
@@ -90,8 +91,8 @@ RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 COPY package.json /home/jenkins
 RUN cd /home/jenkins \
     && ls -la /opt/node-v6.11.2-linux-x64/bin \
-    && /opt/node-v6.11.2-linux-x64/bin/npm install npm@latest -g \
-    && /opt/node-v6.11.2-linux-x64/bin/npm install \
+    && npm install npm@latest -g \
+    && npm install \
     && rm package.json
 
 # Switch back to user root, so Docker can be accessed
