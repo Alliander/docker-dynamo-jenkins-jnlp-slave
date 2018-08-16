@@ -86,7 +86,11 @@ RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
 # Retrieve default libraries from npm build file
 COPY package.json /home/jenkins
 RUN cd /home/jenkins \
-    && sudo npm install \
+    && mkdir ~/.npm-global \
+    && npm config set prefix '~/.npm-global' \
+    && echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.profile \
+    && source ~/.profile \
+    && npm install \
     && rm package.json
 
 # Switch back to user root, so Docker can be accessed
