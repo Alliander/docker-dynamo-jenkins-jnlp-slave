@@ -55,7 +55,6 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
         -o /tmp/maven.tar.gz \
     && tar -zvxf /tmp/maven.tar.gz -C /opt/ \
     && \rm -f /tmp/maven.tar.gz \
-    && mkdir /home/jenkins/.m2/repository -p \
 
 # install node
     && curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - \
