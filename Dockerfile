@@ -81,7 +81,9 @@ ENV GRADLE_USER_HOME=/home/jenkins/.m2
 
 # Retrieve default libraries from gradle build file, like Spring boot etc..
 COPY build.gradle /home/jenkins
-RUN cd /home/jenkins && gradle downloadDependencies && rm build.gradle
+COPY gradle/ /home/jenkins
+COPY gradlew /home/jenkins
+RUN cd /home/jenkins && ./gradlew downloadDependencies && rm build.gradle
 
 # Retrieve default libraries from npm build file
 COPY package.json /home/jenkins

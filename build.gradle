@@ -1,17 +1,18 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.1.RELEASE'
+        springBootVersion = '2.0.5.RELEASE'
     }
     repositories {
-        mavenCentral()
         maven {
+            url 'https://artifactory.usef-dynamo.nl/artifactory/remote-repos/'
             url 'https://plugins.gradle.org/m2/'
         }
+        mavenCentral()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath('gradle.plugin.org.openrepose:gradle-jaxb-plugin:2.5.0')
-        classpath('net.serenity-bdd:serenity-gradle-plugin:1.9.12') {
+        classpath('net.serenity-bdd:serenity-gradle-plugin:1.9.43') {
             exclude group: 'com.google.inject', module:'guice'
         }
     }
@@ -34,32 +35,38 @@ apply plugin: 'scala'
 sourceCompatibility = 1.8
 
 repositories {
+    maven {
+        url 'https://artifactory.usef-dynamo.nl/artifactory/remote-repos/'
+        url 'https://plugins.gradle.org/m2/'
+    }
     mavenCentral()
 }
 
 dependencies {
-    compile('org.abstractj.kalium:kalium:0.7.0')
+    compile('org.abstractj.kalium:kalium:0.8.0')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('org.springframework.boot:spring-boot-devtools')
     compile("org.springframework.boot:spring-boot-starter-hateoas")
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile('io.micrometer:micrometer-registry-prometheus:1.0.5')
+    compile('io.micrometer:micrometer-registry-prometheus:1.0.6')
     compile('org.fluentd:fluent-logger:0.3.3')
     compile('com.sndyuk:logback-more-appenders:1.4.3')
     compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml')
-    compile('com.google.guava:guava:24.1-jre')
+    compile('com.google.guava:guava:26.0-jre')
     compile('org.postgresql:postgresql:42.2.2')
     compile('org.flywaydb:flyway-core')
     compile('com.google.code.findbugs:annotations:3.0.1')
-    compile('io.netty:netty-all:4.1.23.Final')
+    compile('io.netty:netty-all:4.1.29.Final')
     compile('org.projectlombok:lombok')
+    compile('org.apache.poi:poi-ooxml:3.17')
+    compile('com.amazonaws:aws-java-sdk-sns')
     annotationProcessor('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('com.github.tomakehurst:wiremock:2.17.0')
+    testCompile('com.github.tomakehurst:wiremock:2.18.0')
     testCompile('com.h2database:h2')
-    testCompile('org.assertj:assertj-core:3.10.0')
+    testCompile('org.assertj:assertj-core:3.11.1')
     jaxb('org.glassfish.jaxb:jaxb-xjc:2.2.11')
     jaxb('org.glassfish.jaxb:jaxb-runtime:2.2.11')
     jaxb('org.jvnet.jaxb2_commons:jaxb2-basics:1.11.1')
@@ -68,28 +75,28 @@ dependencies {
     jaxb('org.slf4j:slf4j-log4j12:1.7.25')
 
     testCompile('org.projectlombok:lombok:1.16.20')
-    testCompile('org.abstractj.kalium:kalium:0.7.0')
+    testCompile('org.abstractj.kalium:kalium:0.8.0')
     testCompile('net.serenity-bdd:serenity-core:1.9.12')
     testCompile('net.serenity-bdd:serenity-junit:1.9.12')
     testCompile('net.serenity-bdd:serenity-cucumber:1.9.5')
     testCompile('net.serenity-bdd:serenity-rest-assured:1.9.12')
     testCompile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5')
-    testCompile('com.github.tomakehurst:wiremock:2.17.0')
+    testCompile('com.github.tomakehurst:wiremock:2.18.0')
     testCompile('junit:junit:4.12')
     testCompile('com.googlecode.junit-toolbox:junit-toolbox:2.4')
+    testCompile('org.apache.poi:poi-ooxml:3.17')
 
-    testCompile 'org.abstractj.kalium:kalium:0.7.0'
     testCompile 'org.scala-lang:scala-library:2.12.5'
     testCompile 'io.gatling:gatling-app:2.3.1'
     testCompile 'io.gatling.highcharts:gatling-charts-highcharts:2.3.1'
 
     testCompile 'com.github.tomakehurst:wiremock:2.18.0'
     testCompile 'commons-logging:commons-logging:1.2'
-    testCompile 'org.abstractj.kalium:kalium:0.7.0'
     testCompile 'org.scala-lang:scala-library:2.12.5'
     testCompile 'io.gatling:gatling-app:2.3.1'
     testCompile 'io.gatling.highcharts:gatling-charts-highcharts:2.3.1'
     testCompile 'io.netty:netty-all:4.0.56.Final'
+    testCompile 'org.scalaj:scalaj-http_2.12:2.4.1'
 }
 
 task downloadDependencies(type: Exec) {
