@@ -32,6 +32,11 @@ apply plugin: 'scala'
 
 sourceCompatibility = 1.8
 
+checkstyle {
+	toolVersion "8.10.1"
+    sourceSets = [project.sourceSets.main]
+}
+
 repositories {
     maven {
         url 'https://artifactory.usef-dynamo.nl/artifactory/remote-repos/'
@@ -61,10 +66,10 @@ dependencies {
     compile('org.flywaydb:flyway-core')
     compile('com.google.code.findbugs:annotations:3.0.1')
     compile('io.netty:netty-all:4.1.29.Final')
-    compile('org.projectlombok:lombok')
+    compile('org.projectlombok:lombok:1.18.0')
     compile('org.apache.poi:poi-ooxml:3.17')
     compile('com.amazonaws:aws-java-sdk-sns')
-    annotationProcessor('org.projectlombok:lombok')
+    annotationProcessor('org.projectlombok:lombok:1.18.0')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('com.github.tomakehurst:wiremock:2.18.0')
     testCompile('com.h2database:h2')
