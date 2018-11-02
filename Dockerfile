@@ -55,6 +55,7 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
         -o /tmp/maven.tar.gz \
     && tar -zvxf /tmp/maven.tar.gz -C /opt/ \
     && \rm -f /tmp/maven.tar.gz \
+    && mkdir /home/jenkins/.m2/repository -p \
 
 # install node
     && curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - \
@@ -77,7 +78,7 @@ ENV M2=$M2_HOME/bin
 ENV GRADLE_HOME=/opt/gradle-4.8.1
 ENV GRADLE=$GRADLE_HOME/bin
 ENV PATH=$M2:$GRADLE:$PATH
-ENV GRADLE_USER_HOME=/home/jenkins/.m2
+ENV GRADLE_USER_HOME=/home/jenkins/.gradle
 
 # Retrieve default libraries from gradle build file, like Spring boot etc..
 COPY build.gradle /home/jenkins

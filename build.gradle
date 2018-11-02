@@ -3,6 +3,7 @@ buildscript {
         springBootVersion = '2.0.5.RELEASE'
     }
     repositories {
+        mavenLocal()
         maven {
             url 'https://artifactory.usef-dynamo.nl/artifactory/remote-repos/'
         }
@@ -33,6 +34,7 @@ apply plugin: 'scala'
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     maven {
         url 'https://artifactory.usef-dynamo.nl/artifactory/remote-repos/'
     }
