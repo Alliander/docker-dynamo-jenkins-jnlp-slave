@@ -4,6 +4,7 @@
 Er is een Jenkinsfile beschikbaar welke resulteert in een `usefdynamo/jenkins-jnlp-slave` Docker image in de Docker repository.
 
 ## Handmatig builden en pushen
+Mocht je ondanks bovenstaande Jenkins methode, toch zelf aan de slag willen, volg dan onderstaande stappen.
 Het maken/update van de image doe je met:
 ```console
 $ docker build --no-cache -t usefdynamo/jenkins-jnlp-slave:0.6 .
