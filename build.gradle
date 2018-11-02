@@ -87,7 +87,7 @@ dependencies {
     testCompile('net.serenity-bdd:serenity-junit:1.9.12')
     testCompile('net.serenity-bdd:serenity-cucumber:1.9.5')
     testCompile('net.serenity-bdd:serenity-rest-assured:1.9.12')
-    testCompile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5')
+    testCompile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6')
     testCompile('com.github.tomakehurst:wiremock:2.18.0')
     testCompile('junit:junit:4.12')
     testCompile('com.googlecode.junit-toolbox:junit-toolbox:2.4')
