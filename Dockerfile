@@ -69,12 +69,12 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 
 # install Chrome browser
     && echo ' \
-[google-chrome] \
-name=google-chrome \
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64 \
-enabled=1 \
-gpgcheck=1 \
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub \
+[google-chrome] \n \
+name=google-chrome \n \
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64 \n \
+enabled=1 \n \
+gpgcheck=1 \n \
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub \n \
 ' > /etc/yum.repos.d/google-chrome.repo \
     && yum install -y google-chrome-stable
 
