@@ -65,7 +65,18 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
         http://services.gradle.org/distributions/gradle-4.8.1-bin.zip \
         -o /tmp/gradle.zip \
     && unzip /tmp/gradle.zip -d /opt/ \
-    && \rm -f /tmp/gradle.zip
+    && \rm -f /tmp/gradle.zip \
+
+# install Chrome browser
+    && echo '
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+' > /etc/yum.repos.d/google-chrome.repo \
+    && yum install -y google-chrome-stable
 
 RUN chown -R jenkins /opt/* && chgrp -R jenkins /opt/*
 
