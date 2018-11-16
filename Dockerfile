@@ -35,6 +35,7 @@ USER root
 
 RUN yum -y install curl git
 
+COPY google-chrome-repo /etc/yum.repos.d/google-chrome.repo
 RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.tar.gz \
         && tar xzf kubernetes-client-linux-amd64.tar.gz \
         && rm kubernetes-client-linux-amd64.tar.gz \
@@ -68,14 +69,6 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
     && \rm -f /tmp/gradle.zip \
 
 # install Chrome browser
-    && echo ' \
-[google-chrome] \n \
-name=google-chrome \n \
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64 \n \
-enabled=1 \n \
-gpgcheck=1 \n \
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub \n \
-' > /etc/yum.repos.d/google-chrome.repo \
     && yum install -y google-chrome-stable
 
 RUN chown -R jenkins /opt/* && chgrp -R jenkins /opt/*
