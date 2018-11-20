@@ -1,5 +1,5 @@
 FROM usefdynamo/libsodium:0.2
-MAINTAINER David Righart <david.righart@alliander.com>
+MAINTAINER Dynamo team
 
 USER root
 
@@ -68,8 +68,11 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
     && unzip /tmp/gradle.zip -d /opt/ \
     && \rm -f /tmp/gradle.zip \
 
+# install cypress dependencies
+    && yum -y install xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 \
+
 # install Chrome browser
-    && yum install -y google-chrome-stable
+    && yum -y install google-chrome-stable
 
 RUN chown -R jenkins /opt/* && chgrp -R jenkins /opt/*
 
