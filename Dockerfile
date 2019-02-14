@@ -35,6 +35,19 @@ USER root
 
 RUN yum -y install curl git
 
+# install fix for slow starting Spring Boot applications
+RUN curl --fail --location --retry 3 \
+     https://github.com/jirka-h/haveged/archive/1.9.4.tar.gz \
+     -o /tmp/haveged-1.9.4.tar.gz \
+    && tar zxvf /tmp/haveged-1.9.4.tar.gz \
+    && cd /tmp/haveged-1.9.4 \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -dRf /tmp/haveged-1.9.4 \
+    && rm -f /tmp/haveged-1.9.4.tar.gz \
+    && /usr/local/sbin/haveged -w 1024
+
 COPY google-chrome.repo /etc/yum.repos.d/google-chrome.repo
 RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.tar.gz \
         && tar xzf kubernetes-client-linux-amd64.tar.gz \
@@ -70,17 +83,6 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 
 # install Chrome browser
     && yum install -y google-chrome-stable
-
-# install fix for slow starting Spring Boot applications
-RUN curl https://github.com/jirka-h/haveged/archive/1.9.4.tar.gz -o /tmp/haveged-1.9.4.tar.gz \
-    && tar zxvf /tmp/haveged-1.9.4.tar.gz \
-    && cd /tmp/haveged-1.9.4 \
-    && ./configure \
-    && make \
-    && make install \
-    && rm -dRf /tmp/haveged-1.9.4 \
-    && rm -f /tmp/haveged-1.9.4.tar.gz \
-    && /usr/local/sbin/haveged -w 1024
 
 RUN chown -R jenkins /opt/* && chgrp -R jenkins /opt/*
 
