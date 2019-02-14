@@ -71,7 +71,7 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
     && yum install -y google-chrome-stable \
 
 # install `haveged` to fix slow starting Spring Boot applications
-    && yum -y groupinstall 'Development Tools' \
+    && yum -y install make gcc gcc-c++ \
     && curl --fail --location --retry 3 \
      https://github.com/jirka-h/haveged/archive/1.9.4.tar.gz \
      -o /tmp/haveged-1.9.4.tar.gz \
