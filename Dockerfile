@@ -42,7 +42,7 @@ RUN curl --fail --location --retry 3 \
     && ./configure \
     && make \
     && make install \
-    && cd /tmp
+    && cd /tmp \
     && rm -dRf /tmp/haveged-1.9.4 \
     && rm -f /tmp/haveged-1.9.4.tar.gz \
     && /usr/local/sbin/haveged -w 1024
