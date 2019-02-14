@@ -34,7 +34,8 @@ ARG HELM_VERSION=v2.9.1
 USER root
 
 # install fix for slow starting Spring Boot applications
-RUN curl --fail --location --retry 3 \
+RUN yum groupinstall 'Development Tools' \
+    && curl --fail --location --retry 3 \
      https://github.com/jirka-h/haveged/archive/1.9.4.tar.gz \
      -o /tmp/haveged-1.9.4.tar.gz \
     && tar zxvf /tmp/haveged-1.9.4.tar.gz -C /tmp/ \
