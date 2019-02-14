@@ -11,9 +11,9 @@ pipeline {
             steps {
                 script {
                 	if (isReleasableBranch(env.BRANCH_NAME)) {
-                        version = "1.1.${currentBuild.number}"
+                        version = "1.2.${currentBuild.number}"
                     } else {
-                    	version = "1.1.${currentBuild.number}-${env.BRANCH_NAME.replaceAll("feature/", "").replaceAll("[^a-zA-Z0-9]", ".")}"
+                    	version = "1.2.${currentBuild.number}-${env.BRANCH_NAME.replaceAll("feature/", "").replaceAll("[^a-zA-Z0-9]", ".")}"
                     }
 
                     echo "Version ${version}"
