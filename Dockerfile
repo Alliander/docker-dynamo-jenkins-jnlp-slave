@@ -69,7 +69,7 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
     && \rm -f /tmp/gradle.zip \
 
 # install fix for slow starting Spring Boot applications
-    && yum install -y haveged
+    && yum install -y haveged \
 
 # install Chrome browser
     && yum install -y google-chrome-stable
