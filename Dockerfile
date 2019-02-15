@@ -70,6 +70,9 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
 # install Chrome browser
     && yum install -y google-chrome-stable \
 
+# install rng-tools to improve entropy for libsodium
+    && yum install -y rng-tools
+
 # install `haveged` to fix slow starting Spring Boot applications
     && yum -y install make gcc gcc-c++ \
     && curl --fail --location --retry 3 \
