@@ -1,4 +1,4 @@
-FROM usefdynamo/libsodium:1.0.0.20190604161850
+FROM usefdynamo/libsodium:1.0.0.3
 MAINTAINER David Righart <david.righart@alliander.com>
 
 USER root
