@@ -1,4 +1,4 @@
-FROM usefdynamo/libsodium:0.2
+FROM usefdynamo/libsodium:1.0.0.2.5
 MAINTAINER David Righart <david.righart@alliander.com>
 
 USER root
@@ -71,7 +71,7 @@ RUN curl -LO https://dl.k8s.io/${KUBECTL_VERSION}/kubernetes-client-linux-amd64.
     && yum install -y google-chrome-stable \
 
 # install rng-tools to improve entropy for libsodium
-    && yum install -y rng-tools
+    && yum install -y rng-tools \
 
 # install `haveged` to fix slow starting Spring Boot applications
     && yum -y install make gcc gcc-c++ \
